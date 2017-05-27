@@ -48,7 +48,7 @@ public class AlexanderoSolver implements Solver<Board> {
     public String get(Board board) {
         this.board = board;
         if (board.isGameOver()) return "";
-
+        System.out.println("");
         return Direction.UP.toString();
     }
 
