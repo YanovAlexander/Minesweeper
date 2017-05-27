@@ -42,7 +42,7 @@ public class SolverTest {
     @Before
     public void setup() {
         dice = mock(Dice.class);
-        ai = new YourSolver(dice);
+        ai = new AlexanderoSolver(dice);
     }
 
     private Board board(String board) {

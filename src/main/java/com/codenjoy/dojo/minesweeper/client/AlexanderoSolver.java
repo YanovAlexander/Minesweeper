@@ -31,16 +31,16 @@ import com.codenjoy.dojo.services.Dice;
 import com.codenjoy.dojo.services.RandomDice;
 
 /**
- * User: your name
+ * User: Alexandero
  */
-public class YourSolver implements Solver<Board> {
+public class AlexanderoSolver implements Solver<Board> {
 
-    private static final String USER_NAME = "user@gmail.com";
+    private static final String USER_NAME = "yanov.alexander@gmail.com";
 
     private Dice dice;
     private Board board;
 
-    public YourSolver(Dice dice) {
+    public AlexanderoSolver(Dice dice) {
         this.dice = dice;
     }
 
@@ -56,7 +56,7 @@ public class YourSolver implements Solver<Board> {
 //        WebSocketRunner.runOnServer("192.168.1.1:8080", // to use for local server
         WebSocketRunner.run(WebSocketRunner.Host.REMOTE,  // to use for codenjoy.com server
                 USER_NAME,
-                new YourSolver(new RandomDice()),
+                new AlexanderoSolver(new RandomDice()),
                 new Board());
     }
 
