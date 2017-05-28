@@ -23,12 +23,17 @@ package com.codenjoy.dojo.minesweeper.client;
  */
 
 
-
 import com.codenjoy.dojo.client.Direction;
 import com.codenjoy.dojo.client.Solver;
 import com.codenjoy.dojo.client.WebSocketRunner;
+import com.codenjoy.dojo.minesweeper.model.Elements;
 import com.codenjoy.dojo.services.Dice;
+import com.codenjoy.dojo.services.Point;
 import com.codenjoy.dojo.services.RandomDice;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: Alexandero
@@ -48,7 +53,65 @@ public class AlexanderoSolver implements Solver<Board> {
     public String get(Board board) {
         this.board = board;
         if (board.isGameOver()) return "";
-        return Direction.UP.toString();
+
+        Set<Point> needToBeOpened =  getAllSafeHiddenPoints();
+        if (needToBeOpened.isEmpty()){
+            return Direction.UP.toString();
+        }
+        Point destination = findShortest(needToBeOpened);
+        Direction result = getDirection(board.getMe(), destination);
+        return result.toString();
+    }
+
+    void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Direction getDirection(Point from, Point to) {
+        int dx = (from.getX() - to.getX());
+        int dy = (from.getY() - to.getY());
+
+        if (Math.abs(dx) > Math.abs(dy)){
+            if (dx > 0){
+            return Direction.LEFT;
+        }else {
+                return Direction.RIGHT;
+            }
+        }else {
+            if (dy > 0){
+                return Direction.UP;
+            }else {
+                return Direction.DOWN;
+            }
+        }
+
+    }
+
+     Set<Point> getAllSafeHiddenPoints() {
+        Set<Point> needToBeOpened = new HashSet<>();
+        List<Point> points = board.get(Elements.NONE);
+        for (Point point : points) {
+            List<Point> hiddenPoints =
+                    board.getNear(point.getX(), point.getY(), Elements.HIDDEN);
+            needToBeOpened.addAll(hiddenPoints);
+        }
+        return needToBeOpened;
+    }
+
+    public Point findShortest(Set<Point> needToBeOpened) {
+        Point me = board.getMe();
+        double min = Integer.MAX_VALUE;
+        Point result = null;
+        for (Point destination : needToBeOpened) {
+            int dx = Math.abs(me.getX() - destination.getX());
+            int dy = Math.abs(me.getY() - destination.getY());
+            double c = Math.sqrt(dx * dx + dy * dy);
+            if (c < min) {
+                min = c;
+                result = destination;
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) {
