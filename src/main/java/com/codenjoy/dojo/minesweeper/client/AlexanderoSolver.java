@@ -35,6 +35,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.codenjoy.dojo.minesweeper.client.PointUtils.getDirection;
+
 /**
  * User: Alexandero
  */
@@ -67,25 +69,7 @@ public class AlexanderoSolver implements Solver<Board> {
         this.board = board;
     }
 
-    public Direction getDirection(Point from, Point to) {
-        int dx = (from.getX() - to.getX());
-        int dy = (from.getY() - to.getY());
 
-        if (Math.abs(dx) > Math.abs(dy)){
-            if (dx > 0){
-            return Direction.LEFT;
-        }else {
-                return Direction.RIGHT;
-            }
-        }else {
-            if (dy > 0){
-                return Direction.UP;
-            }else {
-                return Direction.DOWN;
-            }
-        }
-
-    }
 
      Set<Point> getAllSafeHiddenPoints() {
         Set<Point> needToBeOpened = new HashSet<>();
